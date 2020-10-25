@@ -1,7 +1,6 @@
 package solar
 
 import (
-	"fmt"
 	"math"
 	"time"
 
@@ -18,14 +17,12 @@ const (
 
 func northPointOFHorizon(date time.Time) float64 {
 	D := astroTime.DSinceEpoch(date)
-	fmt.Printf("D = %f\n", D)
 	N := (360.0 / solarYearDurationDays) * D
 	return c.AdjustTo360(N)
 }
 
 func MeanAnomaly(date time.Time) float64 {
 	N := northPointOFHorizon(date)
-	fmt.Printf("N = %f\n", N)
 	M := N + solarEclipticLongitudeAtEpoch - solarEclipticLongitudeOfPerigee
 	if M < 0 {
 		M = M + 360.0
@@ -41,10 +38,8 @@ func equationOfCentreCorrection(date time.Time) float64 {
 func GeocentricEclipticLongitude(date time.Time) float64 {
 	N := northPointOFHorizon(date)
 	Ec := equationOfCentreCorrection(date)
-	fmt.Printf("Ec = %f\n", Ec)
 
 	L := N + Ec + solarEclipticLongitudeAtEpoch
-	fmt.Printf("L = %f\n", L)
 	if L > 360 {
 		L = L - 360.0
 	}
