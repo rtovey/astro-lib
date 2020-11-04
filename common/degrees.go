@@ -12,8 +12,25 @@ func Cosd(degrees float64) float64 {
 	return math.Cos(dtoR(degrees))
 }
 
+func Tand(degrees float64) float64 {
+	return math.Tan(dtoR(degrees))
+}
+
+func Asind(x float64) float64 {
+	return rtoD(math.Asin(x))
+}
+
+func Atan2d(x float64, y float64) float64 {
+	atan := rtoD(math.Atan2(x, y))
+	return AdjustTo360(atan)
+}
+
 func dtoR(degrees float64) float64 {
 	return (math.Pi / 180) * degrees
+}
+
+func rtoD(radians float64) float64 {
+	return (180 * radians) / math.Pi
 }
 
 func NormaliseAngle(angle float64) float64 {

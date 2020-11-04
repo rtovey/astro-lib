@@ -1,7 +1,7 @@
 package lunar
 
 import (
-	"fmt"
+	//"fmt"
 	"time"
 
 	c "../common"
@@ -9,7 +9,7 @@ import (
 
 func Phase(date time.Time) float64 {
 	position := Position(date)
-	fmt.Printf("%+v\n", position)
+	//fmt.Printf("%+v\n", position)
 
 	F := lunarPhase(position.Debug.lll, position.Debug.Ls)
 	return F

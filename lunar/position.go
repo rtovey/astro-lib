@@ -1,9 +1,12 @@
 package lunar
 
+import (
+	c "../common"
+)
+
 type LunarPosition struct {
-	RA    float64            // Right Ascension; degrees
-	DC    float64            // Declination; degrees
-	Debug LunarPositionDebug // Calculation debug values
+	Ecliptic c.Ecliptic
+	Debug    LunarPositionDebug // Calculation debug values
 }
 
 type LunarPositionDebug struct {
@@ -25,6 +28,4 @@ type LunarPositionDebug struct {
 	NN  float64
 	y   float64
 	x   float64
-	Lm  float64
-	Bm  float64
 }

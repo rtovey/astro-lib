@@ -32,6 +32,12 @@ func Position(date time.Time) LunarPosition {
 	V := lunarVariation(ll, Ls)
 	lll := lunarOrbitalLongitude(ll, V)
 	NN := lunarCorrectedLongitudeOfNode(N, Ms)
+	y := yCord(lll, NN)
+	x := xCord(lll, NN)
+	ec := c.Ecliptic{
+		Latitude:  lunarEclipticLatitude(lll, NN),
+		Longitude: lunarEclipticLongitude(x, y, NN),
+	}
 
 	debug := LunarPositionDebug{
 		D:   D,
@@ -50,13 +56,11 @@ func Position(date time.Time) LunarPosition {
 		V:   V,
 		lll: lll,
 		NN:  NN,
-		//y:   y,
-		//x:   x,
-		//Lm:  Lm,
-		//Bm:  Bm,
+		y:   y,
+		x:   x,
 	}
 
-	return LunarPosition{RA: 0.0, DC: 0.0, Debug: debug}
+	return LunarPosition{Ecliptic: ec, Debug: debug}
 }
 
 func lunarLongitude(D float64) float64 {
@@ -114,4 +118,24 @@ func lunarVariation(ll float64, L float64) float64 {
 
 func lunarOrbitalLongitude(ll float64, V float64) float64 {
 	return ll + V
+}
+
+func yCord(lll float64, NN float64) float64 {
+	y := c.Sind(lll-NN) * c.Cosd(lunarOrbitInclination)
+	return y
+}
+
+func xCord(lll float64, NN float64) float64 {
+	x := c.Cosd(lll - NN)
+	return x
+}
+
+func lunarEclipticLongitude(x float64, y float64, NN float64) float64 {
+	Lm := c.Atan2d(y, x) + NN
+	return Lm
+}
+
+func lunarEclipticLatitude(lll float64, NN float64) float64 {
+	Bm := c.Asind(c.Sind(lll-NN) * c.Sind(lunarOrbitInclination))
+	return Bm
 }
