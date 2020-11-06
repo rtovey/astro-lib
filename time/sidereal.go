@@ -4,12 +4,11 @@ import (
 	c "../common"
 )
 
-type LocalSiderealTime struct {
-	Time float64
-}
+type LST float64
+type GST float64
 
-func (lst LocalSiderealTime) ToGst(observer c.Observer) float64 {
-	gst := lst.Time
+func (lst LST) ToGst(observer c.Observer) float64 {
+	gst := float64(lst)
 	timeDiff := observer.Longitude / 15.0
 	if observer.Longitude < 0 {
 		gst += timeDiff

@@ -6,8 +6,8 @@ import (
 )
 
 type RiseSetTime struct {
-	LSTr  t.LocalSiderealTime
-	LSTs  t.LocalSiderealTime
+	LSTr  t.LST
+	LSTs  t.LST
 	Debug RiseSetDebug
 }
 
@@ -24,12 +24,8 @@ func (object Equatorial) GetRiseSetTime(observer c.Observer) RiseSetTime {
 	Ar := c.Acosd(c.Sind(object.Declination) / c.Cosd(latitude))
 	As := 360.0 - Ar
 	H := (1 / 15.0) * c.Acosd(-1*c.Tand(latitude)*c.Tand(object.Declination))
-	LSTr := t.LocalSiderealTime{
-		Time: localSiderialRiseTime(object, H),
-	}
-	LSTs := t.LocalSiderealTime{
-		Time: localSiderialSetTime(object, H),
-	}
+	LSTr := t.LST(localSiderialRiseTime(object, H))
+	LSTs := t.LST(localSiderialSetTime(object, H))
 
 	debug := RiseSetDebug{
 		Position: object,
