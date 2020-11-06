@@ -4,6 +4,7 @@ import (
 	"time"
 
 	c "../common"
+	o "../orbit"
 )
 
 type LunarRiseSetTime struct {
@@ -17,16 +18,16 @@ type LunarRiseSetTimeDebug struct {
 	observer            c.Observer
 	midnightPosition    LunarPosition
 	middayPosition      LunarPosition
-	midnightRiseSetTime c.RiseSetTime
-	middayRiseSetTime   c.RiseSetTime
+	midnightRiseSetTime o.RiseSetTime
+	middayRiseSetTime   o.RiseSetTime
 }
 
 func RiseTime(observer c.Observer, date time.Time) LunarRiseSetTime {
 	midnightPosition := Position(time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.UTC))
 	middayPosition := Position(time.Date(date.Year(), date.Month(), date.Day(), 12, 0, 0, 0, time.UTC))
 
-	midnightRiseSetTime := midnightPosition.Ecliptic.ToEquatorial(date).RiseSetTime(observer)
-	middayRiseSetTime := middayPosition.Ecliptic.ToEquatorial(date).RiseSetTime(observer)
+	midnightRiseSetTime := midnightPosition.Ecliptic.ToEquatorial(date).GetRiseSetTime(observer)
+	middayRiseSetTime := middayPosition.Ecliptic.ToEquatorial(date).GetRiseSetTime(observer)
 
 	debug := LunarRiseSetTimeDebug{
 		date:                date,

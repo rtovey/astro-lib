@@ -4,6 +4,7 @@ import (
 	"time"
 
 	c "../common"
+	o "../orbit"
 	"../solar"
 	t "../time"
 )
@@ -34,7 +35,7 @@ func Position(date time.Time) LunarPosition {
 	NN := lunarCorrectedLongitudeOfNode(N, Ms)
 	y := yCord(lll, NN)
 	x := xCord(lll, NN)
-	ec := c.Ecliptic{
+	ec := o.Ecliptic{
 		Latitude:  lunarEclipticLatitude(lll, NN),
 		Longitude: lunarEclipticLongitude(x, y, NN),
 	}

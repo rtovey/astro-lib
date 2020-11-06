@@ -3,11 +3,11 @@ package lunar
 import (
 	"time"
 
-	c "../common"
+	o "../orbit"
 )
 
 type LunarPosition struct {
-	Ecliptic c.Ecliptic
+	Ecliptic o.Ecliptic
 	Debug    LunarPositionDebug // Calculation debug values
 }
 
@@ -18,7 +18,7 @@ type LunarPositionDebug struct {
 	Ls   float64 // Solar Geocentric Ecliptic Longitude
 	l    float64 // Lunar Orbital Longitude
 	Mm   float64 // Lunar Mean Anomaly
-	N    float64 // Lunar Longitude of Node; degrees
+	N    float64  // Lunar Longitude of Node; degrees
 	Ev   float64 // Evection Correction
 	Ae   float64 // Lunar Annual Equation
 	A3   float64 // Lunar Third Correction to Mean Anomaly

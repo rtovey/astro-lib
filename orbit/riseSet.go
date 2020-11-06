@@ -1,37 +1,38 @@
-package time
+package orbit
 
 import (
 	c "../common"
+	t "../time"
 )
 
 type RiseSetTime struct {
-	LSTr  LocalSiderealTime
-	LSTs  LocalSiderealTime
-	Debug RiseSetTimeDebug
+	LSTr  t.LocalSiderealTime
+	LSTs  t.LocalSiderealTime
+	Debug RiseSetDebug
 }
 
-type RiseSetTimeDebug struct {
-	Position c.Equatorial
+type RiseSetDebug struct {
+	Position Equatorial
 	Latitude float64 // observer's latitude; degrees
 	Ar       float64 // degrees
 	As       float64 // degrees
 	H        float64 // hours
 }
 
-func (p c.Equatorial) RiseSetTime(observer c.Observer) RiseSetTime {
+func (object Equatorial) GetRiseSetTime(observer c.Observer) RiseSetTime {
 	latitude := observer.Latitude
-	Ar := Acosd(Sind(p.Declination) / Cosd(latitude))
+	Ar := c.Acosd(c.Sind(object.Declination) / c.Cosd(latitude))
 	As := 360.0 - Ar
-	H := (1 / 15.0) * Acosd(-1*Tand(latitude)*Tand(p.Declination))
+	H := (1 / 15.0) * c.Acosd(-1*c.Tand(latitude)*c.Tand(object.Declination))
 	LSTr := t.LocalSiderealTime{
-		Time: localSiderialRiseTime(p, H),
+		Time: localSiderialRiseTime(object, H),
 	}
 	LSTs := t.LocalSiderealTime{
-		Time: localSiderialSetTime(p, H),
+		Time: localSiderialSetTime(object, H),
 	}
 
-	debug := RiseSetTimeDebug{
-		Position: p,
+	debug := RiseSetDebug{
+		Position: object,
 		Latitude: latitude,
 		Ar:       Ar,
 		As:       As,
@@ -45,7 +46,7 @@ func (p c.Equatorial) RiseSetTime(observer c.Observer) RiseSetTime {
 	}
 }
 
-func localSiderialRiseTime(position c.Equatorial, H float64) float64 {
+func localSiderialRiseTime(position Equatorial, H float64) float64 {
 	LSTr := 24.0 + position.RightAscension - H
 	if LSTr > 24 {
 		LSTr = LSTr - 24.0
@@ -53,7 +54,7 @@ func localSiderialRiseTime(position c.Equatorial, H float64) float64 {
 	return LSTr
 }
 
-func localSiderialSetTime(position c.Equatorial, H float64) float64 {
+func localSiderialSetTime(position Equatorial, H float64) float64 {
 	LSTs := position.RightAscension + H
 	if LSTs > 24 {
 		LSTs = LSTs - 24.0

@@ -1,6 +1,10 @@
-package common
+package orbit
 
-import "time"
+import (
+	"time"
+
+	c "../common"
+)
 
 type Equatorial struct {
 	RightAscension float64
@@ -19,10 +23,10 @@ type EquatorialDebug struct {
 
 func (ec Ecliptic) ToEquatorial(date time.Time) Equatorial {
 	e := MeanObliquityOfEcliptic(date)
-	d := Asind((Sind(ec.Latitude) * Cosd(e)) + (Cosd(ec.Latitude) * Sind(e) * Sind(ec.Longitude)))
-	y := (Sind(ec.Longitude) * Cosd(e)) - (Tand(ec.Latitude) * Sind(e))
-	x := Cosd(ec.Longitude)
-	a := Atan2d(y, x) / 15.0
+	d := c.Asind((c.Sind(ec.Latitude) * c.Cosd(e)) + (c.Cosd(ec.Latitude) * c.Sind(e) * c.Sind(ec.Longitude)))
+	y := (c.Sind(ec.Longitude) * c.Cosd(e)) - (c.Tand(ec.Latitude) * c.Sind(e))
+	x := c.Cosd(ec.Longitude)
+	a := c.Atan2d(y, x) / 15.0
 
 	debug := EquatorialDebug{
 		ecliptic: ec,

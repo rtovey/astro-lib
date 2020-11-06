@@ -1,4 +1,4 @@
-package common
+package orbit
 
 type Ecliptic struct {
 	Longitude float64 // Geocentric ecliptic longitude, L
