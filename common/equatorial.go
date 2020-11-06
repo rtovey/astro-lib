@@ -42,5 +42,6 @@ func (ec Ecliptic) ToEquatorial(date time.Time) Equatorial {
 
 func MeanObliquityOfEcliptic(date time.Time) float64 {
 	// TODO
-	return 23.441884
+	//return 23.441884
+	return 23.43658135
 }

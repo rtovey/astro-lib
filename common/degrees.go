@@ -20,6 +20,10 @@ func Asind(x float64) float64 {
 	return rtoD(math.Asin(x))
 }
 
+func Acosd(x float64) float64 {
+	return rtoD(math.Acos(x))
+}
+
 func Atan2d(x float64, y float64) float64 {
 	atan := rtoD(math.Atan2(x, y))
 	return AdjustTo360(atan)

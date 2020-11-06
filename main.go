@@ -7,6 +7,8 @@ import (
 
 	c "./common"
 	"./lunar"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 func main() {
@@ -29,13 +31,16 @@ func main() {
 	phase := lunar.Phase(time.Now())
 	fmt.Printf("Lunar phase: %.0f%%\n", phase*100)
 
-	lunar.RiseTime(time.Date(1979, time.February, 26, 16, 0, 50, 0, time.UTC))
-	//lunar.RiseTime(time.Date(1986, time.March, 6, 0, 0, 0, 0, time.UTC))
-
-	ec := c.Ecliptic{
-		Longitude: 139.686111,
-		Latitude:  4.875278,
+	date := time.Date(1986, time.March, 6, 0, 0, 0, 0, time.UTC)
+	observer := c.Observer{
+		Latitude:  42.3666667,
+		Longitude: 71.05,
+		Timezone:  time.UTC,
 	}
-	eq := ec.ToEquatorial(time.Now())
-	fmt.Printf("%+v\n\n", eq)
+
+	riseSetExample := lunar.RiseTime(observer, date)
+
+	//fmt.Printf("%+v\n\n", riseSetExample)
+
+	spew.Dump(riseSetExample)
 }
