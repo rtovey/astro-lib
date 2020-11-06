@@ -13,7 +13,7 @@ const (
 
 func ToJulianDate(t time.Time) JulianDate {
 	gregorianCalendarStart := time.Date(1582, time.October, 14, 23, 59, 59, 999, time.UTC)
-	
+
 	y := float64(t.Year())
 	m := float64(t.Month())
 	if m == 1 || m == 2 {
@@ -22,7 +22,7 @@ func ToJulianDate(t time.Time) JulianDate {
 	}
 	d := d(t)
 
-	A, _ := math.Modf(y /100.0)
+	A, _ := math.Modf(y / 100.0)
 
 	B := 0.0
 	if t.After(gregorianCalendarStart) {
@@ -43,8 +43,12 @@ func ToJulianDate(t time.Time) JulianDate {
 }
 
 func d(t time.Time) float64 {
-	return float64(t.Day()) + 
-			(float64(t.Hour()) / 24.0) +
-			(float64(t.Minute() / 3600.0)) + 
-			(float64(t.Second()) / 86400.0)
+	return float64(t.Day()) +
+		(float64(t.Hour()) / 24.0) +
+		(float64(t.Minute() / 3600.0)) +
+		(float64(t.Second()) / 86400.0)
+}
+
+func (JD JulianDate) Value() float64 {
+	return float64(JD)
 }

@@ -31,11 +31,12 @@ func main() {
 	phase := lunar.Phase(time.Now())
 	fmt.Printf("Lunar phase: %.0f%%\n", phase*100)
 
-	date := time.Date(1986, time.March, 6, 0, 0, 0, 0, time.UTC)
+	loc, _ := time.LoadLocation("EST")
+	date := time.Date(1986, time.March, 6, 0, 0, 0, 0, loc)
 	observer := c.Observer{
 		Latitude:  42.3666667,
-		Longitude: 71.05,
-		Timezone:  time.UTC,
+		Longitude: -71.05,
+		Timezone:  loc,
 	}
 
 	riseSetExample := lunar.RiseTime(observer, date)
