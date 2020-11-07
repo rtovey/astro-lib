@@ -21,12 +21,7 @@ func (gst GST) Value() float64 {
 func (lst LST) ToGst(observer c.Observer) GST {
 	gst := float64(lst)
 	timeDiff := observer.Longitude / 15.0
-	if observer.Longitude < 0 {
-		gst += timeDiff
-	}
-	if observer.Longitude > 0 {
-		gst -= timeDiff
-	}
+	gst -= timeDiff
 	if gst > 24.0 {
 		gst -= 24.0
 	}
