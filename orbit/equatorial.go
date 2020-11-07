@@ -49,3 +49,10 @@ func MeanObliquityOfEcliptic(date time.Time) float64 {
 	//return 23.441884
 	return 23.43658135
 }
+
+func MeanEquatorialPosition(eq1 Equatorial, eq2 Equatorial) Equatorial {
+	return Equatorial{
+		RightAscension: (eq1.RightAscension + eq2.RightAscension) / 2.0,
+		Declination:    (eq1.Declination + eq2.Declination) / 2.0,
+	}
+}

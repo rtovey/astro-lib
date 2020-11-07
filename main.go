@@ -36,7 +36,7 @@ func main() {
 	observer := c.Observer{
 		Latitude:  42.3666667,
 		Longitude: -71.05,
-		Timezone:  loc,
+		Location:  loc,
 	}
 
 	riseSetExample := lunar.RiseTime(observer, date)

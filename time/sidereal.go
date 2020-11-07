@@ -46,6 +46,21 @@ func UTToGst(date time.Time) GST {
 	return GST(T0)
 }
 
+func (gst GST) ToUT(date time.Time) time.Time {
+	UTdate := date.In(time.UTC)
+	JD := ToJulianDate(time.Date(UTdate.Year(), UTdate.Month(), UTdate.Day(), 0, 0, 0, 0, time.UTC)).Value()
+
+	S := JD - 2451545.0
+	T := S / 36525.0
+	T0 := 6.697374558 + (2400.051336 * T) + (0.000025862 * math.Pow(T, 2))
+	T0 = adjustTo24Hours(T0)
+	T0 = gst.Value() - T0
+	T0 = adjustTo24Hours(T0)
+
+	UT := Hours(0.9972695663 * T0)
+	return time.Date(UTdate.Year(), UTdate.Month(), UTdate.Day(), UT.Hours(), UT.Minutes(), UT.Seconds(), 0, time.UTC)
+}
+
 func adjustTo24Hours(hours float64) float64 {
 	for hours < 0.0 {
 		hours = hours + 24.0

@@ -30,6 +30,17 @@ type LunarRiseSetTimeDebug struct {
 	GST2s               t.GST
 	GSTr                t.GST
 	GSTs                t.GST
+	dd                  o.Equatorial
+	pi                  float64
+	th                  float64
+	x                   float64
+	phi                 float64
+	y                   float64
+	dt                  float64
+	GSTra               t.GST
+	GSTsa               t.GST
+	UTr                 time.Time
+	UTs                 time.Time
 }
 
 func RiseTime(observer c.Observer, date time.Time) LunarRiseSetTime {
@@ -48,8 +59,22 @@ func RiseTime(observer c.Observer, date time.Time) LunarRiseSetTime {
 	GST2r := calculateAdjustedGST(middayRiseSetTime.LSTr, observer, T000)
 	GST2s := calculateAdjustedGST(middayRiseSetTime.LSTs, observer, T000)
 
-	GSTr := averageGST(GST1r, GST2r, T00)
-	GSTs := averageGST(GST1s, GST2s, T00)
+	GSTr := interpolateGST(GST1r, GST2r, T00)
+	GSTs := interpolateGST(GST1s, GST2s, T00)
+
+	dd := meanPosition(midnightPosition, middayPosition, date)
+	pi := horizontalParallax(midnightPosition)
+	th := apparentAngularDiameter(midnightPosition)
+	x := (-1.0 * pi) + (th / 2.0) + atmosphericRefraction
+	phi := o.AngleAtHorizon(observer, dd)
+	y := o.Y(x, phi)
+	dt := o.RiseSetTimeShiftSeconds(y, dd) / 3600.0
+
+	GSTra := t.GST(GSTr.Value() - dt)
+	GSTsa := t.GST(GSTs.Value() + dt)
+
+	UTr := GSTra.ToUT(date)
+	UTs := GSTsa.ToUT(date)
 
 	debug := LunarRiseSetTimeDebug{
 		date:                date,
@@ -66,11 +91,22 @@ func RiseTime(observer c.Observer, date time.Time) LunarRiseSetTime {
 		GST2s:               GST2s,
 		GSTr:                GSTr,
 		GSTs:                GSTs,
+		dd:                  dd,
+		pi:                  pi,
+		th:                  th,
+		x:                   x,
+		phi:                 phi,
+		y:                   y,
+		dt:                  dt,
+		GSTra:               GSTra,
+		GSTsa:               GSTsa,
+		UTr:                 UTr,
+		UTs:                 UTs,
 	}
 
 	return LunarRiseSetTime{
-		Rise:  time.Now(),
-		Set:   time.Now(),
+		Rise:  UTr.In(observer.Location),
+		Set:   UTs.In(observer.Location),
 		Debug: debug,
 	}
 }
@@ -92,7 +128,11 @@ func calculateAdjustedGST(LST t.LST, observer c.Observer, T000 t.GST) t.GST {
 	return t.GST(GSTvalue)
 }
 
-func averageGST(GST1 t.GST, GST2 t.GST, T00 t.GST) t.GST {
+func interpolateGST(GST1 t.GST, GST2 t.GST, T00 t.GST) t.GST {
 	GST := ((12.03 * GST1.Value()) - (T00.Value() * (GST2.Value() - GST1.Value()))) / (12.03 + GST1.Value() - GST2.Value())
 	return t.GST(GST)
+}
+
+func meanPosition(p1 LunarPosition, p2 LunarPosition, date time.Time) o.Equatorial {
+	return o.MeanEquatorialPosition(p1.Ecliptic.ToEquatorial(date), p2.Ecliptic.ToEquatorial(date))
 }

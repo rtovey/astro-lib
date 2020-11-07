@@ -7,5 +7,5 @@ import (
 type Observer struct {
 	Latitude  float64
 	Longitude float64
-	Timezone  *time.Location
+	Location  *time.Location
 }
