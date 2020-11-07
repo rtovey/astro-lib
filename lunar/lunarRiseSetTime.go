@@ -1,7 +1,6 @@
 package lunar
 
 import (
-	"fmt"
 	"time"
 
 	c "../common"
@@ -121,7 +120,6 @@ func getT000(T00 t.GST, observer c.Observer) t.GST {
 
 func calculateAdjustedGST(LST t.LST, observer c.Observer, T000 t.GST) t.GST {
 	GSTvalue := LST.ToGst(observer).Value()
-	fmt.Printf("GST: %f\n", GSTvalue)
 	if GSTvalue < T000.Value() {
 		GSTvalue += 24.0
 	}

@@ -28,20 +28,30 @@ func main() {
 	// 	fmt.Printf("%s = %.0f%%\n", date.Format("2006-01-02 15:04"), phase*100)
 	// }
 
-	phase := lunar.Phase(time.Now())
-	fmt.Printf("Lunar phase: %.0f%%\n", phase*100)
+	lunarPhase := lunar.Phase(time.Now())
 
-	loc, _ := time.LoadLocation("EST")
-	date := time.Date(1986, time.March, 6, 0, 0, 0, 0, loc)
+	/*
+		// Worked example
+		loc, _ := time.LoadLocation("EST")
+		date := time.Date(1986, time.March, 6, 0, 0, 0, 0, loc)
+		observer := c.Observer{
+			Latitude:  42.3666667,
+			Longitude: -71.05,
+			Location:  loc,
+		}*/
+
+	// Greenwich Observatory, London, UK
+	loc, _ := time.LoadLocation("Europe/London")
+	date := time.Now()
 	observer := c.Observer{
-		Latitude:  42.3666667,
-		Longitude: -71.05,
+		Latitude:  51.477840,
+		Longitude: 0.0,
 		Location:  loc,
 	}
 
-	riseSetExample := lunar.RiseTime(observer, date)
+	lunarRiseSetTime := lunar.RiseTime(observer, date)
 
-	//fmt.Printf("%+v\n\n", riseSetExample)
+	spew.Dump(lunarRiseSetTime)
+	fmt.Printf("\n\n\nLunar phase: %.0f%%\nRise time: %v\nSet time: %v\n", lunarPhase*100, lunarRiseSetTime.Rise, lunarRiseSetTime.Set)
 
-	spew.Dump(riseSetExample)
 }
