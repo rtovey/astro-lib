@@ -1,0 +1,3 @@
+# Go Astronomy Library
+
+Work in progress...
