@@ -2,11 +2,13 @@ package main
 
 import (
 	//"astro/solar"
-	"fmt"
+
 	"time"
 
 	c "github.com/rtovey/astro/common"
-	"github.com/rtovey/astro/lunar"
+	"github.com/rtovey/astro/solar"
+
+	//"github.com/rtovey/astro/lunar"
 
 	"github.com/davecgh/go-spew/spew"
 )
@@ -47,10 +49,14 @@ func main() {
 			Location:  loc,
 		}*/
 
-	lunarPhase := lunar.Phase(date)
-	lunarRiseSetTime := lunar.RiseTime(observer, date)
+	/*lunarPhase := lunar.Phase(date)
+	lunarRiseSetTime := lunar.RiseSetTime(observer, date)
 
 	spew.Dump(lunarRiseSetTime)
-	fmt.Printf("\n\n\nLunar phase: %.0f%%\nRise time: %v\nSet time: %v\n", lunarPhase*100, lunarRiseSetTime.Rise, lunarRiseSetTime.Set)
+	fmt.Printf("\n\n\nLunar phase: %.0f%%\nRise time: %v\nSet time: %v\n", lunarPhase*100, lunarRiseSetTime.Rise, lunarRiseSetTime.Set)*/
+
+	solarRiseSetTime := solar.RiseSetTime(observer, date)
+
+	spew.Dump(solarRiseSetTime)
 
 }

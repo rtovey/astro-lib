@@ -42,7 +42,7 @@ type LunarRiseSetTimeDebug struct {
 	UTs                 time.Time
 }
 
-func RiseTime(observer c.Observer, date time.Time) LunarRiseSetTime {
+func RiseSetTime(observer c.Observer, date time.Time) LunarRiseSetTime {
 	midnightPosition := Position(time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.UTC))
 	middayPosition := Position(time.Date(date.Year(), date.Month(), date.Day(), 12, 0, 0, 0, time.UTC))
 

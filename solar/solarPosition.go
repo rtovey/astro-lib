@@ -5,6 +5,7 @@ import (
 	"time"
 
 	c "github.com/rtovey/astro/common"
+	o "github.com/rtovey/astro/orbit"
 	t "github.com/rtovey/astro/time"
 )
 
@@ -14,6 +15,32 @@ const (
 	solarEclipticLongitudeOfPerigee = 282.768422
 	solarOrbitEccentricity          = 0.016713
 )
+
+type SolarPosition struct {
+	Ecliptic o.Ecliptic
+	Debug    SolarPositionDebug // Calculation debug values
+}
+
+type SolarPositionDebug struct {
+	D float64
+}
+
+func Position(date time.Time) SolarPosition {
+	D := daysSinceEpoch(date)
+
+	debug := SolarPositionDebug{
+		D: D,
+	}
+
+	return SolarPosition{
+		Debug: debug,
+	}
+}
+
+func daysSinceEpoch(date time.Time) float64 {
+	epoch := time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC)
+	return date.Sub(epoch).Hours() / 24.0
+}
 
 func northPointOFHorizon(date time.Time) float64 {
 	D := t.DSinceEpoch(date)
