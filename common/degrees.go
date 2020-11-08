@@ -29,8 +29,16 @@ func Atan2d(x float64, y float64) float64 {
 	return AdjustTo360(atan)
 }
 
+func DtoR(degrees float64) float64 {
+	return dtoR(degrees)
+}
+
 func dtoR(degrees float64) float64 {
 	return (math.Pi / 180) * degrees
+}
+
+func RtoD(radians float64) float64 {
+	return rtoD(radians)
 }
 
 func rtoD(radians float64) float64 {

@@ -15,7 +15,7 @@ type SolarRiseSetTime struct {
 type SolarRiseSetTimeDebug struct {
 	date              time.Time
 	observer          c.Observer
-	midnightPosition  SolarPosition
+	MidnightPosition  SolarPosition
 	plus24HrsPosition SolarPosition
 }
 
@@ -29,7 +29,7 @@ func RiseSetTime(observer c.Observer, date time.Time) SolarRiseSetTime {
 	debug := SolarRiseSetTimeDebug{
 		date:              date,
 		observer:          observer,
-		midnightPosition:  midnightPosition,
+		MidnightPosition:  midnightPosition,
 		plus24HrsPosition: plus24HrsPosition,
 	}
 

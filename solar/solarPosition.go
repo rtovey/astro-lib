@@ -6,7 +6,6 @@ import (
 
 	c "github.com/rtovey/astro/common"
 	o "github.com/rtovey/astro/orbit"
-	t "github.com/rtovey/astro/time"
 )
 
 const (
@@ -22,17 +21,35 @@ type SolarPosition struct {
 }
 
 type SolarPositionDebug struct {
-	D float64
+	D float64 // days
+	N float64 // degrees
+	M float64 // degrees
+	E float64 // radians
+	v float64 // degrees
 }
 
 func Position(date time.Time) SolarPosition {
 	D := daysSinceEpoch(date)
+	N := northPointOFHorizon(D)
+	M := meanAnomaly(N)
+	E := c.SolveKeplersEquation(c.DtoR(M), solarOrbitEccentricity, math.Pow10(-6))
+	v := trueAnomaly(E)
+	l := v + solarEclipticLongitudeOfPerigee
+	l = c.NormaliseAngle(l)
 
 	debug := SolarPositionDebug{
 		D: D,
+		N: N,
+		M: M,
+		E: E,
+		v: v,
 	}
 
 	return SolarPosition{
+		Ecliptic: o.Ecliptic{
+			Latitude:  0,
+			Longitude: l,
+		},
 		Debug: debug,
 	}
 }
@@ -42,22 +59,24 @@ func daysSinceEpoch(date time.Time) float64 {
 	return (date.Sub(epoch).Hours() + 24.0) / 24.0
 }
 
-func northPointOFHorizon(date time.Time) float64 {
-	D := t.DSinceEpoch(date)
-	N := (360.0 / solarYearDurationDays) * D
-	return c.AdjustTo360(N)
+func northPointOFHorizon(D float64) float64 {
+	return c.NormaliseAngle((360.0 / solarYearDurationDays) * D)
 }
 
-func MeanAnomaly(date time.Time) float64 {
-	N := northPointOFHorizon(date)
+func meanAnomaly(N float64) float64 {
 	M := N + solarEclipticLongitudeAtEpoch - solarEclipticLongitudeOfPerigee
 	if M < 0 {
-		M = M + 360.0
+		M += 360.0
 	}
 	return M
 }
 
-func equationOfCentreCorrection(date time.Time) float64 {
+func trueAnomaly(E float64) float64 {
+	x := math.Pow((1+solarOrbitEccentricity)/(1-solarOrbitEccentricity), 0.5) * math.Tan(E/2.0)
+	return c.RtoD(2 * math.Atan(x))
+}
+
+/*func equationOfCentreCorrection(date time.Time) float64 {
 	M := MeanAnomaly(date)
 	return (360.0 / math.Pi) * solarOrbitEccentricity * c.Sind(M)
 }
@@ -71,4 +90,4 @@ func GeocentricEclipticLongitude(date time.Time) float64 {
 		L = L - 360.0
 	}
 	return L
-}
+}*/

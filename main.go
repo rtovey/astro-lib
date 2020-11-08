@@ -30,7 +30,7 @@ func main() {
 	// 	fmt.Printf("%s = %.0f%%\n", date.Format("2006-01-02 15:04"), phase*100)
 	// }
 
-	date := time.Now()
+	date := time.Date(1988, time.July, 27, 0, 0, 0, 0, time.UTC)
 	// Greenwich Observatory, London, UK
 	loc, _ := time.LoadLocation("Europe/London")
 	observer := c.Observer{
@@ -59,4 +59,5 @@ func main() {
 
 	spew.Dump(solarRiseSetTime)
 
+	spew.Dump(solarRiseSetTime.Debug.MidnightPosition.Ecliptic.ToEquatorial(date))
 }
