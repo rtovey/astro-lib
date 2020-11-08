@@ -3,10 +3,10 @@ package lunar
 import (
 	"time"
 
-	c "../common"
-	o "../orbit"
-	"../solar"
-	t "../time"
+	c "github.com/rtovey/astro/common"
+	o "github.com/rtovey/astro/orbit"
+	"github.com/rtovey/astro/solar"
+	t "github.com/rtovey/astro/time"
 )
 
 const (

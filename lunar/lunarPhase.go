@@ -3,7 +3,7 @@ package lunar
 import (
 	"time"
 
-	c "../common"
+	c "github.com/rtovey/astro/common"
 )
 
 func Phase(date time.Time) float64 {

@@ -3,7 +3,7 @@ package lunar
 import (
 	"math"
 
-	c "../common"
+	c "github.com/rtovey/astro/common"
 )
 
 const (

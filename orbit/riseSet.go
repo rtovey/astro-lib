@@ -1,8 +1,8 @@
 package orbit
 
 import (
-	c "../common"
-	t "../time"
+	c "github.com/rtovey/astro/common"
+	t "github.com/rtovey/astro/time"
 )
 
 type RiseSetTime struct {
