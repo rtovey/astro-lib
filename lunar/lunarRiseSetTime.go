@@ -3,9 +3,9 @@ package lunar
 import (
 	"time"
 
-	c "../common"
-	o "../orbit"
-	t "../time"
+	c "github.com/rtovey/astro/common"
+	o "github.com/rtovey/astro/orbit"
+	t "github.com/rtovey/astro/time"
 )
 
 type LunarRiseSetTime struct {

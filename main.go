@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	c "./common"
-	"./lunar"
+	c "github.com/rtovey/astro/common"
+	"github.com/rtovey/astro/lunar"
 
 	"github.com/davecgh/go-spew/spew"
 )
@@ -28,7 +28,14 @@ func main() {
 	// 	fmt.Printf("%s = %.0f%%\n", date.Format("2006-01-02 15:04"), phase*100)
 	// }
 
-	lunarPhase := lunar.Phase(time.Now())
+	date := time.Now()
+	// Greenwich Observatory, London, UK
+	loc, _ := time.LoadLocation("Europe/London")
+	observer := c.Observer{
+		Latitude:  51.477840,
+		Longitude: 0.0,
+		Location:  loc,
+	}
 
 	/*
 		// Worked example
@@ -40,15 +47,7 @@ func main() {
 			Location:  loc,
 		}*/
 
-	// Greenwich Observatory, London, UK
-	loc, _ := time.LoadLocation("Europe/London")
-	date := time.Now()
-	observer := c.Observer{
-		Latitude:  51.477840,
-		Longitude: 0.0,
-		Location:  loc,
-	}
-
+	lunarPhase := lunar.Phase(date)
 	lunarRiseSetTime := lunar.RiseTime(observer, date)
 
 	spew.Dump(lunarRiseSetTime)

@@ -1,6 +1,6 @@
 package orbit
 
-import c "../common"
+import c "github.com/rtovey/astro/common"
 
 func AngleAtHorizon(observer c.Observer, position Equatorial) float64 {
 	return c.Acosd(c.Sind(observer.Latitude) / c.Cosd(position.Declination))

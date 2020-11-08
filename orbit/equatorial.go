@@ -3,7 +3,7 @@ package orbit
 import (
 	"time"
 
-	c "../common"
+	c "github.com/rtovey/astro/common"
 )
 
 type Equatorial struct {

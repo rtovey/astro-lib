@@ -4,7 +4,7 @@ import (
 	"math"
 	"time"
 
-	c "../common"
+	c "github.com/rtovey/astro/common"
 )
 
 type LST float64

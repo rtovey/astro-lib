@@ -4,8 +4,8 @@ import (
 	"math"
 	"time"
 
-	c "../common"
-	astroTime "../time"
+	c "github.com/rtovey/astro/common"
+	t "github.com/rtovey/astro/time"
 )
 
 const (
@@ -16,7 +16,7 @@ const (
 )
 
 func northPointOFHorizon(date time.Time) float64 {
-	D := astroTime.DSinceEpoch(date)
+	D := t.DSinceEpoch(date)
 	N := (360.0 / solarYearDurationDays) * D
 	return c.AdjustTo360(N)
 }
