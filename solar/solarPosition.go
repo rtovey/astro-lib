@@ -39,7 +39,7 @@ func Position(date time.Time) SolarPosition {
 
 func daysSinceEpoch(date time.Time) float64 {
 	epoch := time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC)
-	return date.Sub(epoch).Hours() / 24.0
+	return (date.Sub(epoch).Hours() + 24.0) / 24.0
 }
 
 func northPointOFHorizon(date time.Time) float64 {
