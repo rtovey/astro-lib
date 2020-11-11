@@ -1,6 +1,7 @@
 package time
 
 import (
+	"fmt"
 	"math"
 	"time"
 
@@ -19,9 +20,10 @@ func (gst GST) Value() float64 {
 }
 
 func (lst LST) ToGst(observer c.Observer) GST {
-	gst := float64(lst)
+	gst := lst.Value()
 	timeDiff := observer.Longitude / 15.0
 	gst -= timeDiff
+	fmt.Printf("gst: %f\n", gst)
 	if gst > 24.0 {
 		gst -= 24.0
 	}
@@ -59,6 +61,14 @@ func (gst GST) ToUT(date time.Time) time.Time {
 
 	UT := Hours(0.9972695663 * T0)
 	return time.Date(UTdate.Year(), UTdate.Month(), UTdate.Day(), UT.Hours(), UT.Minutes(), UT.Seconds(), 0, time.UTC)
+}
+
+func GetT000(T00 GST, observer c.Observer) GST {
+	T000 := T00.Value() - ((observer.Longitude / 15.0) * 1.002738)
+	if T000 < 0 {
+		T000 += 24.0
+	}
+	return GST(T000)
 }
 
 func adjustTo24Hours(hours float64) float64 {

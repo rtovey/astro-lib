@@ -51,7 +51,7 @@ func RiseSetTime(observer c.Observer, date time.Time) LunarRiseSetTime {
 
 	UTdate := date.In(time.UTC)
 	T00 := t.UTToGst(time.Date(UTdate.Year(), UTdate.Month(), UTdate.Day(), 0, 0, 0, 0, time.UTC))
-	T000 := getT000(T00, observer)
+	T000 := t.t.GetT000(T00, observer)
 
 	GST1r := calculateAdjustedGST(midnightRiseSetTime.LSTr, observer, T000)
 	GST1s := calculateAdjustedGST(midnightRiseSetTime.LSTs, observer, T000)
@@ -108,14 +108,6 @@ func RiseSetTime(observer c.Observer, date time.Time) LunarRiseSetTime {
 		Set:   UTs.In(observer.Location),
 		Debug: debug,
 	}
-}
-
-func getT000(T00 t.GST, observer c.Observer) t.GST {
-	T000 := T00.Value() - ((observer.Longitude / 15.0) * 1.002738)
-	if T000 < 0 {
-		T000 += 24.0
-	}
-	return t.GST(T000)
 }
 
 func calculateAdjustedGST(LST t.LST, observer c.Observer, T000 t.GST) t.GST {
