@@ -1,7 +1,6 @@
 package time
 
 import (
-	"fmt"
 	"math"
 	"time"
 
@@ -23,7 +22,7 @@ func (lst LST) ToGst(observer c.Observer) GST {
 	gst := lst.Value()
 	timeDiff := observer.Longitude / 15.0
 	gst -= timeDiff
-	fmt.Printf("gst: %f\n", gst)
+
 	if gst > 24.0 {
 		gst -= 24.0
 	}

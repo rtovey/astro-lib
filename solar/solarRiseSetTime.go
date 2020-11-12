@@ -29,6 +29,13 @@ type SolarRiseSetTimeDebug struct {
 	GST2s                t.GST
 	GSTr                 t.GST
 	GSTs                 t.GST
+	dd                   o.Equatorial
+	pi                   float64
+	th                   float64
+	x                    float64
+	phi                  float64
+	y                    float64
+	dt                   float64
 	GSTra                t.GST
 	GSTsa                t.GST
 	UTr                  time.Time
@@ -71,8 +78,16 @@ func RiseSetTime(observer c.Observer, date time.Time) SolarRiseSetTime {
 	GSTr := interpolateGST(GST1r, GST2r, T00)
 	GSTs := interpolateGST(GST1s, GST2s, T00)
 
-	GSTra := GSTr
-	GSTsa := GSTs
+	dd := meanPosition(midnightPosition, plus24HrsPosition, date)
+	pi := horizontalParallax
+	th := apparentAngularDiameter(midnightPosition)
+	x := (-1.0 * pi) + (th / 2.0) + atmosphericRefraction
+	phi := o.AngleAtHorizon(observer, dd)
+	y := o.Y(x, phi)
+	dt := o.RiseSetTimeShiftSeconds(y, dd) / 3600.0
+
+	GSTra := t.GST(GSTr.Value() - dt)
+	GSTsa := t.GST(GSTs.Value() + dt)
 
 	UTr := GSTra.ToUT(date)
 	UTs := GSTsa.ToUT(date)
@@ -92,6 +107,13 @@ func RiseSetTime(observer c.Observer, date time.Time) SolarRiseSetTime {
 		GST2s:                GST2s,
 		GSTr:                 GSTr,
 		GSTs:                 GSTs,
+		dd:                   dd,
+		pi:                   pi,
+		th:                   th,
+		x:                    x,
+		phi:                  phi,
+		y:                    y,
+		dt:                   dt,
 		GSTra:                GSTra,
 		GSTsa:                GSTsa,
 		UTr:                  UTr,
@@ -108,4 +130,8 @@ func RiseSetTime(observer c.Observer, date time.Time) SolarRiseSetTime {
 func interpolateGST(GST1 t.GST, GST2 t.GST, T00 t.GST) t.GST {
 	GST := ((24.07 * GST1.Value()) - (T00.Value() * (GST2.Value() - GST1.Value()))) / (24.07 + GST1.Value() - GST2.Value())
 	return t.GST(GST)
+}
+
+func meanPosition(p1 SolarPosition, p2 SolarPosition, date time.Time) o.Equatorial {
+	return o.MeanEquatorialPosition(p1.Ecliptic.ToEquatorial(date), p2.Ecliptic.ToEquatorial(date))
 }
