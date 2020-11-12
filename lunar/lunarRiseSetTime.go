@@ -51,7 +51,7 @@ func RiseSetTime(observer c.Observer, date time.Time) LunarRiseSetTime {
 
 	UTdate := date.In(time.UTC)
 	T00 := t.UTToGst(time.Date(UTdate.Year(), UTdate.Month(), UTdate.Day(), 0, 0, 0, 0, time.UTC))
-	T000 := t.t.GetT000(T00, observer)
+	T000 := t.GetT000(T00, observer)
 
 	GST1r := calculateAdjustedGST(midnightRiseSetTime.LSTr, observer, T000)
 	GST1s := calculateAdjustedGST(midnightRiseSetTime.LSTs, observer, T000)
