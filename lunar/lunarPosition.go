@@ -5,7 +5,7 @@ import (
 
 	c "github.com/rtovey/astro/common"
 	o "github.com/rtovey/astro/orbit"
-	"github.com/rtovey/astro/solar"
+	s "github.com/rtovey/astro/solar"
 	t "github.com/rtovey/astro/time"
 )
 
@@ -18,8 +18,9 @@ const (
 
 func Position(date time.Time) LunarPosition {
 	D := t.EpochTime(date)
-	Ms := solar.MeanAnomaly(date)
-	Ls := solar.GeocentricEclipticLongitude(date)
+	solarPosition := s.Position(date)
+	Ms := solarPosition.Debug.M
+	Ls := solarPosition.Ecliptic.Longitude
 	l := lunarLongitude(D)
 	Mm := lunarAnomaly(l, D)
 	N := lunarLongitudeOfNode(D)
