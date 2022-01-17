@@ -3,7 +3,7 @@ package lunar
 import (
 	"time"
 
-	c "github.com/rtovey/astro/common"
+	c "github.com/rtovey/astro-lib/common"
 )
 
 type LunarPhase struct {

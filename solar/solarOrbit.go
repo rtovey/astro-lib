@@ -3,7 +3,7 @@ package solar
 import (
 	"math"
 
-	c "github.com/rtovey/astro/common"
+	c "github.com/rtovey/astro-lib/common"
 )
 
 const (

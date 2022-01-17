@@ -4,8 +4,8 @@ import (
 	"math"
 	"time"
 
-	c "github.com/rtovey/astro/common"
-	o "github.com/rtovey/astro/orbit"
+	c "github.com/rtovey/astro-lib/common"
+	o "github.com/rtovey/astro-lib/orbit"
 )
 
 const (

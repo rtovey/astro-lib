@@ -3,7 +3,7 @@ package lunar
 import (
 	"time"
 
-	o "github.com/rtovey/astro/orbit"
+	o "github.com/rtovey/astro-lib/orbit"
 )
 
 type LunarPosition struct {
